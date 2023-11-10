@@ -1,94 +1,99 @@
 import java.util.Scanner;
 
-public class TicTacToeGame {
-    public static void main(String[] args) {
-        char[][] board = {
-            {' ', ' ', ' '},
-            {' ', ' ', ' '},
-            {' ', ' ', ' '}
-        };
-        char currentPlayer = 'X';
-        boolean gameWon = false;
+public class ATM
+{
+  private int accnum;
+  private double balance;
+  private int pin;
 
-        while (!gameWon) {
-            displayBoard(board);
-            int[] move = getPlayerMove(currentPlayer);
-            int row = move[0];
-            int col = move[1];
+  public ATM (double accnum, int pin)
+  {
+    balance = 2000;
+    this.pin = pin;
+  }
 
-            if (isValidMove(board, row, col)) {
-                board[row][col] = currentPlayer;
-                displayBoard(board);
+  public void deposit (double amount)
+  {
+    balance += amount;
+  }
 
-                gameWon = isGameWon(board, currentPlayer);
-                if (gameWon) {
-                    System.out.println("Player " + currentPlayer + " wins!");
-                } else if (isBoardFull(board)) {
-                    System.out.println("It's a draw!");
-                    break;
-                }
+  public void withdraw (double amount)
+  {
+    if (amount <= balance)
+      {
+	balance -= amount;
+      }
+    else
+      {
+	System.out.println ("Insufficient funds");
+      }
+  }
 
-                currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
-            } else {
-                System.out.println("Invalid move. Try again.");
-            }
-        }
-    }
+  public void changePin (int newPin)
+  {
+    pin = newPin;
+  }
 
-    public static void displayBoard(char[][] board) {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.print(board[i][j]);
-                if (j < 2) {
-                    System.out.print(" | ");
-                }
-            }
-            System.out.println();
-            if (i < 2) {
-                System.out.println("---------");
-            }
-        }
-    }
+  public void displayBalance ()
+  {
+    System.out.println ("Current balance:" + balance);
+  }
 
-    public static int[] getPlayerMove(char player) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Player " + player + ", enter your move (row and column): ");
-        int row = scanner.nextInt();
-        int col = scanner.nextInt();
-        return new int[]{row, col};
-    }
+  public static void main (String[]args)
+  {
+    System.out.println ("\t\tWelcome To Childern's Bank");
+    Scanner scanner = new Scanner (System.in);
 
-    public static boolean isValidMove(char[][] board, int row, int col) {
-        return (row >= 0 && row < 3 && col >= 0 && col < 3 && board[row][col] == ' ');
-    }
+    System.out.print ("Enter Account Number:");
+    double accnum = scanner.nextDouble ();
 
-    public static boolean isGameWon(char[][] board, char player) {
-        
-        for (int i = 0; i < 3; i++) {
-            if (board[i][0] == player && board[i][1] == player && board[i][2] == player) {
-                return true; 
-            }
-            if (board[0][i] == player && board[1][i] == player && board[2][i] == player) {
-                return true; 
-            }
-        }
-        if (board[0][0] == player && board[1][1] == player && board[2][2] == player) {
-            return true; 
-        }
-        if (board[0][2] == player && board[1][1] == player && board[2][0] == player) {
-            return true;
-        }
-        return false;
-    }
+    System.out.print ("Enter PIN: ");
+    int pin = scanner.nextInt ();
 
-    public static boolean isBoardFull(char[][] board) {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (board[i][j] == ' ') {
-                    return false; 
-                }
-            }
-        }
-        return true; 
-    }
+    ATM atm = new ATM (accnum, pin);
+
+    boolean exit = false;
+    while (!exit)
+      {
+	System.out.println ("\nATM Menu:");
+	System.out.println ("1. Deposit");
+	System.out.println ("2. Withdraw");
+	System.out.println ("3. Change PIN");
+	System.out.println ("4. Display Balance");
+	System.out.println ("5. Exit");
+
+	System.out.print ("Enter your choice: ");
+	int choice = scanner.nextInt ();
+
+	switch (choice)
+	  {
+	  case 1:
+	    System.out.print ("Enter amount to deposit:");
+	    double depositAmount = scanner.nextDouble ();
+	    atm.deposit (depositAmount);
+	    break;
+	  case 2:
+	    System.out.print ("Enter amount to withdraw:");
+	    double withdrawAmount = scanner.nextDouble ();
+	    atm.withdraw (withdrawAmount);
+	    break;
+	  case 3:
+	    System.out.print ("Enter new PIN: ");
+	    int newPin = scanner.nextInt ();
+	    atm.changePin (newPin);
+	    break;
+	  case 4:
+	    atm.displayBalance ();
+	    break;
+	  case 5:
+	    exit = true;
+	    break;
+	  default:
+	    System.out.println ("Invalid choice");
+	    break;
+	  }
+      }
+
+    System.out.println ("Thank you for using the ATM!");
+  }
 }
