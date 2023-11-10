@@ -6,39 +6,51 @@ public class Calculator {
 
         System.out.println("Simple Calculator");
         System.out.print("Enter the first number: ");
-        double num1 = scanner.nextDouble();
-
-        System.out.print("Enter an operator (+, -, *, /): ");
-        char operator = scanner.next().charAt(0);
+        float num1 = scanner.nextFloat();
 
         System.out.print("Enter the second number: ");
-        double num2 = scanner.nextDouble();
+        float num2 = scanner.nextFloat();
 
-        double result;
+        System.out.println("Select an operation you want to perform:");
+        System.out.println("1. Addition ");
+        System.out.println("2. Subtraction ");
+        System. out.println("3. Multiplication ");
+        System.out.println("4. Division ");
 
-        switch (operator) {
-            case '+':
+        System.out.print("Enter the operation: ");
+        int operation = scanner.nextInt();
+
+        double result = 0.0;
+        boolean isValid = true;
+
+        switch (operation) {
+            case 1:
                 result = num1 + num2;
                 break;
-            case '-':
+            case 2:
                 result = num1 - num2;
                 break;
-            case '*':
+            case 3:
                 result = num1 * num2;
                 break;
-            case '/':
+            case 4:
                 if (num2 != 0) {
                     result = num1 / num2;
                 } else {
                     System.out.println("Error: Division by zero is not allowed.");
-                    return;
+                    isValid = false;
                 }
                 break;
             default:
-                System.out.println("Error: Invalid operator.");
-                return;
+                System.out.println("Invalid operation selection.");
+                isValid = false;
+                break;
         }
 
-        System.out.println("Result: " + result);
+        if (isValid) {
+            System.out.println("Result: "+result);
+        }
     }
+
+    
 }
